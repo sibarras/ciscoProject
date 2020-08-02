@@ -1,0 +1,32 @@
+Indicaciones 
+
+Capa 2
+
+- Activar RSTP en SW1 , SW2 y SW3 y SW1 debe ser el root con la menor prioridad configurable. Sw2 debe tener la siguiente menor prioridad configurable. Sw3 debe tenerla prioridad por defecto.
+
+- Activar el puerto 3 ( SW2-SW3) y puerto 4 ( SW1-SW3)  en estado FW para las conexiones entre estos equipos.
+Se deben usar dos metodos diferentes para lograr el objetivo. En caso de no poderse debe sustentar la razon por la cual no se puede realizar.
+
+- Activar un portchannel entre SW1 y SW2 usando  un protocolo 
+estandar usando cuatro puertos.#########################
+
+- Los puertos que conectan a SW1-RBOR1 , SW2-RBOR2  y SW3-RINT deben iniciar en modo forwarding apenas son activados y deben tener proteccion en caso de recibir alguna BPDU por estos puertos
+
+Capa 3
+- Usar las redes descritas en el diagrama para colocar IP a los equipos (deben subnetear las redes internas).
+
+- RINT debe apuntar a un solo Gateway que comparten RBOR1 y RBOR2
+
+- RoExt1 debe apuntar a un solo Gateway que comparten RBOR1 y RBOR2
+
+- Usar enrutamiento estatico necesario
+
+-Configurar DHCP para IPv4 e IPv6 (statefull) al fin de que la PC pueda recibir tanto direccionamiento IPv4 como direccionamiento IPv6. Es valido usar un host para IPV4 y un host para IPV6 , pero si logran configurar todo en un solo host seria lo ideal.
+
+
+Puntos a evaluar:
+
+PC debe ser capaz de realizar ping a lo0 de RoExt1 tanto para la direccion IPv4 como para IPv6.
+
+RSTP debe estar configurado segun los requisitos estipulados.
+

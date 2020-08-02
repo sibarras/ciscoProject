@@ -1,0 +1,35 @@
+# se utiliza para evitar el loop en ethernet
+# se bloquean puertos para lograr que se arme el spanning tree
+# se elige un root y todos los sw apuntan a este. los caminos redundantes mas caros seran bloqueados
+
+# 3 partes:
+    1. bridge priority
+    2. system id ( vlans )
+    3. mac address( desempate )
+
+# prioridad inicial siempre (default): 32768
+# rango usable de 0 a 61440 y da pasos de 4096
+
+# designed port es que no apunta al puerto pero si debe estar activado
+# root port es cuando apunta al puerto saliendo  de un sw diferente al root
+# alternate es cuando no esta activado pero puede serlo en el futuro
+
+Hello Timer -
+    The hello time is the interval between BPDUs. The default is 2 seconds but can be modified to between 1 and 10 seconds.
+Forward Delay Timer -
+    The forward delay is the time that is spent in the listening and learning state. The default is 15 seconds but can be modified to between 4 and 30 seconds.
+Max Age Timer -
+    The max age is the maximum length of time that a switch waits before attempting to change the STP topology. The default is 20 seconds but be modified to between 6 and 40 seconds.
+
+# estados
+    blocking - no esta participando pero disponible
+    listening - escucha para ver si puede participar
+    learning - va a participar y tiene que prepararse
+    fowarding - participa
+    disabled - nunca hace nada
+
+# spanning por cada vlan (diferentes instancias y diferentes roots)
+    Per-VLAN Spanning Tree (PVST) versions of STP, there is a root bridge elected for each spanning tree instance. This makes it possible to have different root bridges for different sets of VLANs. STP operates a separate instance of STP for each individual VLAN. If all ports on all switches are members of VLAN 1, then there is only one spanning tree instance.
+
+mst, pvst y rapid pvst son de cisco
+

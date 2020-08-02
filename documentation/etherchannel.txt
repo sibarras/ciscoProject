@@ -1,0 +1,47 @@
+# ether channel es para aumentar velocidad, y hace ver al spanning tree como si solo fuera un canal
+# debe coincidir:
+    velocidad
+    vlan
+    puerto o interfaz
+    full duplex
+
+# PAgP es propietario, LACP es estandar, el que hay que usar.
+
+# para LACP es uno activo y uno pasivo. Para el otro es auto y desirable
+# activo es e lque estara siempre
+# pasivo se activa cuando existe uno activo
+
+# configurar etherchannel LACP
+
+    show etherchannel summary # ver si esta vacio
+
+    interface range ethernet 2/0 - 3 # configurar con numeros reales
+
+        shutdown # evitar su uso mientras se configura (opcional)
+        channel-group 10 mode active # puedes cambiar el numero de grupo
+        duplex full
+        brandwidth 10000000
+        no shutdown (como el shut, tambien es opcional)
+
+
+# para configurar lo que sea en estos puertos, debe hacerse en el port-channel creado, no individual
+
+    S1(config)# interface port-channel 1
+    
+        S1(config-if)# switchport mode trunk
+        S1(config-if)# switchport trunk allowed vlan 1,2,20
+        S1(config-if)# no shutdown
+
+
+# debe coincidir todo menos las interfaces, que pueden o no coincidir.
+# solo hacer cambios al etherchannel logico, no a los individuales
+
+# al final de colocar todos los ether channels en los sw debes balancear
+    port-channel load-balance src-dst-ip
+
+# Verificar
+    show interfaces port-channel 1
+    show etherchannel summary
+    show etherchannel port-channel
+    show interfaces f0/1 etherchannel
+

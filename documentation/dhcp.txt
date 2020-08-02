@@ -1,0 +1,75 @@
+# dhcp es cliente servidor y solo necesita un router
+# When the client boots (or otherwise wants to join a network), it begins a four-step process to obtain a lease:
+    DHCP Discover (DHCPDISCOVER) #  busco si hay un dhcp server en la red
+    DHCP Offer (DHCPOFFER) # respondo cual puede ser, a la vez me quedo con tu ip y tu mac
+    DHCP Request (DHCPREQUEST) bueno damela pues y a la vez que nadie mas me de nada. lo mando como broadcast
+    DHCP Acknowledgment (DHCPACK) pilla, listo. todo bien todo correcto
+    # solo los 2 ultimos se hacen si quieres renovar.
+
+# Use the following steps to configure a Cisco IOS DHCPv4 server:
+    Step 1. Exclude IPv4 addresses.
+    Step 2. Define a DHCPv4 pool name.
+    Step 3. Configure the DHCPv4 pool.
+
+# Other DHCPv4 pool commands are optional. For example:
+    dns-server command: IPv4 address of the DNS server that is available to a DHCPv4 client
+    domain-name command: is used to define the domain name
+    lease command: The duration of the DHCPv4 lease. The default lease value is one day.
+    The netbios-name-server command is used to define the NetBIOS WINS server. # not recomended
+
+
+# in router para configurar la interfaz (esto es config inicial)
+    configure terminal
+    interface fa0/0
+    ip address 192.168.0.1 255.255.255.0
+    no shutdown
+
+
+# la salsa real!!
+    dhcp excluded-address <initaddr> <endaddr> # es un rango de direcciones que no se pueden utilizar
+    ip dhcp pool <name> # nombre de tu nueva pool
+        network 192.168.0.0 255.255.255.0 # dir ip de la red
+        default-router 192.168.0.1 # puerta de enlace
+        dns-server <direccion de los servidores>
+        domain-name RoEXTServer
+        lease 0 8 30 # ocho horas y 30 min tiempo de arrendamiento, default de un dia
+        exit
+    exit
+
+# si el router no esta configurado como server
+    # te metes a la interface de donde llega la solicitud de ip
+    interface g0/0/0
+        ip helper-address 192.168.11.6
+
+# comandos para ver
+    show ip interface brief # ver ips de las interfases
+    show ip dhcp binding
+    show ip dhcp server statistics
+    show dhcp binding # ver los ip asignados por dhcp
+    show running-config | section dhcp
+
+# activar y desactivar dhcp en el router
+    no service dhcp
+    service dhcp
+
+# router como cliente dhcp (no lo de nuestro caso)
+    interface G0/0/1
+        ip address dhcp
+        no shutdown
+
+
+########LADO DEL CLIENTE#############
+
+# in pc
+
+
+
+    ipconfig /realase
+    ipconfig /renew
+
+
+
+    show ip
+    ip dhcp # buscar direccion dhcp
+    show ip # ver la ip asignada
+    pconfig /all

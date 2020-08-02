@@ -1,0 +1,15 @@
+# esto es para el proyecto
+
+# 3 estados. discarding, learning y fowarding
+# 4 roles de los puertos. root, designado, backup y alternate
+    designado - en uso o para usar
+    alternate es otro camino al root
+    backup cuando es igual a otro ( dos conexiones compartidas o algo asi )
+
+# el delay puede ser un problema para los que quieran conectarse a un dhcp server. se usa portfast
+# PortFast is only for use on switch ports that connect to end devices.
+# portfast se coloca en los puertos de acceso. ( los finales o que van hacia dispositivos)
+# BPDU guard ayuda si la cagas. porque si hiciste una mala configuracion y a tu puerto con 
+    portfast le esta llegando BPDU, entonces hiciste algo mal, esto hace que se apague este puerto.
+
+# anadir commandos de spanning tree.!!!

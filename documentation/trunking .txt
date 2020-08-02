@@ -1,0 +1,33 @@
+# configurar trunking switchports
+
+# es para pasar varias vlans por un solo puerto
+    interface range ethernet 0/0 - 3 # o sin range si es uno solo
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        switchport negotiate # ?? necesario?? NOO. pero lo dejo como curiosidad
+        switchport trunk native vlan <vlan> # cualquiera menos vlan 1 o las que estas usando
+        switchport trunk allowed vlan <vlanlist> except <notIncluded> # opcional el except
+        no shutdown # si es primera vez que lo configuras
+
+
+# trunk dinamico (esta de default en todas las interfaces) propietario de cisco
+    interface fa0/0
+        switchport mode dynamic auto
+
+# interfaz modo acceso (lo que piden en el examen final)
+    interface fa0/0
+        switchport mode access
+
+# reset all trunk config
+    S1(config)# interface fa0/1
+        S1(config-if)# no switchport trunk allowed vlan
+        S1(config-if)# no switchport trunk native vlan
+
+# show results
+    show interfaces fa0/1 switchport
+
+modos switchport:
+    dynamic desirable
+    dynamic auto
+    trunk
+    access

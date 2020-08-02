@@ -1,0 +1,17 @@
+# en las vlans se ponen los puertos, no las ips
+
+# create vlan
+    vlan <vlanNumber>
+        name <name>
+        vlan <secondvlan>
+        name <secondname>
+
+
+# assing vlan to interface
+    interface FastEthernet 0/0
+        switchport
+        switchport mode access
+        switchport access vlan <vlanNumber>
+        mls qos trust cos
+        switchport voice vlan 150
+

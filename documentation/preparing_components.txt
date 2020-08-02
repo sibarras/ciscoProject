@@ -1,0 +1,44 @@
+# elimino cualquier cosa configurada
+    delete vlan.dat
+    erase startup-config
+    reload
+
+# disable default vlan 1 management and use a different
+    interface vlan <vlan number>
+        ip address <ip> <mask>
+        ipv6 address <addr&mask>
+        no shutdown
+        exit
+
+# configure default gateway
+    ip default gateway <ip> 
+
+
+# config ports
+    interface FastEthernet 0/1
+        duplex full
+        speed 100
+        mdix auto # para que mire si tiene los cables bien
+
+
+
+# enable a secret to switches and configure VTY line to allow remote access TELNET
+    enable secret <password>
+    line vty 0 4
+        password <password>
+        login
+
+
+# view results
+    show ip interface brief
+    show ipv6 interface brief
+
+    show interfaces fastEthernet 0/4
+    show interfaces fastEthernet <interf> switchport
+
+    show version
+    show ip ssh
+
+    show ip route (routers)
+
+    show vlan brief
