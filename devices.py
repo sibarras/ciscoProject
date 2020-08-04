@@ -1,4 +1,5 @@
 import os
+# Averiguar como puedes tomar
 
 class NetworkDevice:
 
@@ -7,10 +8,10 @@ class NetworkDevice:
                  banner="Authorized Users Only!"):
 
         self.hostname = hostname
-        self.password = password
-        self.enablePassword = enablePassword
-        self.interfaceTypes = []
-        self.interfaces = []
+        self.__password = password
+        self.__enablePassword = enablePassword
+        self.modules = []
+        self.interfaces = {}
         self.networkConnections = []
 
         vtyMax = 4  #vty ports number
@@ -20,15 +21,15 @@ class NetworkDevice:
             
             hostname {self.hostname}
             no ip domain-lookup
-            enable secret {self.enablePassword}
+            enable secret {self.__enablePassword}
             
             line console 0
-            password {self.password}
+            password {self.__password}
             login logging synchronous
             exit
             
             line vty 0 {vtyMax}
-            password {self.password}
+            password {self.__password}
             login
             exit
             
@@ -37,9 +38,27 @@ class NetworkDevice:
             end
         """
         for command in commands.split('\n'):
-            os.system(command)
-        print("The initial configuration is successfully completed!")
+            print(command)# os.system(command)  # Do in cisco Router
 
+        self.__save()
+        print(f"The initial configuration in {self.hostname} is successfully completed!")
+
+
+    def __save(self):
+        command = "copy running-config startup-config"
+        print(command)  # os.system(command)
+
+    def openCommunication(self):
+        pass
+
+    def closeCommunication(self):
+        pass
+
+    def connection(self, other):
+        pass
+
+    def __sub__(self, other):
+        self.connection(other)
 
     def setGateway(self, gatewayIP=str) -> str:
         self.gateway = gatewayIP
@@ -49,4 +68,7 @@ class NetworkDevice:
             end
         """
         for command in commands.split('\n'):
-            os.system(command)
+            print(command)# os.system(command)
+        
+        self.__save()
+        print("Gateway Sucessfully Configured!")

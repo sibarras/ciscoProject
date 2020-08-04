@@ -1,42 +1,17 @@
 #!/usr/bin/python3
-import os
+from devices import NetworkDevice
 
 
-class Router:
+class Router(NetworkDevice):
 
-    def __init__(self, hostname, enablePassword="class", password="cisco"):
-        self.hostname = hostname
-        self.password = password
-        self.enablePass = enablePassword
+    def __init__(self, hostname, password="cisco", enablePassword="class", banner="Authorized Users Only!"):
+        NetworkDevice.__init__(self, hostname=hostname, password=password,
+                               enablePassword=enablePassword, banner=banner)
+        self.modules = ['Console', 'FastEthernet0', 'GigabitEthernet0']
 
-    def initialConfiguration(self, banner="Authorized Users Only!"):
-        vtyMax = 4  # es la cantidad de puertos para vty
-        commands = f"""
-            enable
-            configure terminal
-            
-            hostname {self.hostname}
-            no ip domain-lookup
-            enable secret {self.enablePass}
-            
-            line console 0
-            password {self.password}
-            login logging synchronous
-            exit
-            
-            line vty 0 {vtyMax}
-            password {self.password}
-            login
-            exit
-            
-            service password-encryption
-            banner motd $ {banner} $
-            
-        """
-        self.initCommandList = commands.split("\n")
-        for command in self.initCommandList:
-            os.system(command)
+    def setDHCPServer(self, number, name, addr) -> None:
+        pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass
